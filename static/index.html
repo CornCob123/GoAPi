@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Client</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <button onclick="connectWebSocket()">Connect to WebSocket</button>
+    <p id="status">Status: Not Connected</p>
+    <p id="message"></p>
+
+    <script>
+        let socket;
+
+        function connectWebSocket() {
+            socket = io("http://localhost:5000");
+
+            socket.on("connect", () => {
+                document.getElementById("status").innerText = "Status: Connected";
+                console.log("Connected to WebSocket Server");
+            });
+
+            socket.on("welcome", (msg) => {
+                document.getElementById("message").innerText = "Server says: " + msg;
+                console.log("Welcome Message:", msg);
+            });
+
+            socket.on("disconnect", () => {
+                document.getElementById("status").innerText = "Status: Disconnected";
+                console.log("Disconnected from WebSocket Server");
+            });
+        }
+    </script>
+</body>
+</html>
